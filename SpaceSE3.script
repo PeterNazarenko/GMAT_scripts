@@ -440,12 +440,6 @@ While ratio > 2.5
    EndScript;
 EndWhile;
 
-%Target DefaultDC {SolveMode = Solve, ExitMode = DiscardAndContinue, ShowProgressWindow = true};
-%  Vary DefaultDC(DefaultIB.Element1 = 0.5, {Perturbation = 0.0001, Lower = 0.0, Upper = 3.14159, MaxStep = 0.2, AdditiveScaleFactor = 0.0, MultiplicativeScaleFactor = 1.0});
-%  Propagate DefaultProp(DefaultSC) {DefaultSC.ElapsedSecs = 12000.0};
-%  Achieve DefaultDC(DefaultSC.Earth.RMAG = 42165.0, {Tolerance = 0.1});
-%EndTarget;  % For targeter DefaultDC
-
 Target DefaultDC {SolveMode = Solve, ExitMode = DiscardAndContinue, ShowProgressWindow = true};
    Vary DefaultDC(burnTime = 0.1, {Perturbation = 0.0001, Lower = 0.0, Upper = 500, MaxStep = 10, AdditiveScaleFactor = 0.0, MultiplicativeScaleFactor = 1.0});
    BeginFiniteBurn DefaultFB(DefaultSC);
@@ -460,12 +454,12 @@ EndTarget;  % For targeter DefaultDC
 GMAT dist = sqrt((DefaultSC.X-Spacecraft1.X)*(DefaultSC.X-Spacecraft1.X)+(DefaultSC.Y-Spacecraft1.Y)*(DefaultSC.Y-Spacecraft1.Y)+(DefaultSC.Z-Spacecraft1.Z)*(DefaultSC.Z-Spacecraft1.Z));
 Write dist { Style = Concise, LogFile = false, MessageWindow = true }
 
-%Stop;
-%Propagate Synchronized DefaultProp(DefaultSC) DefaultProp(Spacecraft1) {DefaultSC.Earth.Periapsis, OrbitColor = [0 0 255]};
+%Stop;  % Debug
+%Propagate Synchronized DefaultProp(DefaultSC) DefaultProp(Spacecraft1) {DefaultSC.Earth.Periapsis, OrbitColor = [0 0 255]};  % Debug - no orbit circularization
 Target DefaultDC {SolveMode = Solve, ExitMode = DiscardAndContinue, ShowProgressWindow = true};
-   %Vary DefaultDC(burnTime2 = 300, {Perturbation = 0.0001, Lower = 300, Upper = 700, MaxStep = 10, AdditiveScaleFactor = 0.0, MultiplicativeScaleFactor = 1.0});
+   %Vary DefaultDC(burnTime2 = 300, {Perturbation = 0.0001, Lower = 300, Upper = 700, MaxStep = 10, AdditiveScaleFactor = 0.0, MultiplicativeScaleFactor = 1.0});  % An old option - maneuver begins at apocenter
    
-   Vary DefaultDC(halfBurn2duration = 300, {Perturbation = 0.0001, Lower = 200, Upper = 700, MaxStep = 10, AdditiveScaleFactor = 0.0, MultiplicativeScaleFactor = 1.0});
+   Vary DefaultDC(halfBurn2duration = 300, {Perturbation = 0.0001, Lower = 200, Upper = 700, MaxStep = 10, AdditiveScaleFactor = 0.0, MultiplicativeScaleFactor = 1.0});  % New otion - maneuver begin before the apocenter
    BeginScript
       GMAT backPropDuration = -halfBurn2duration;
       GMAT burnTime2 = halfBurn2duration*2;
