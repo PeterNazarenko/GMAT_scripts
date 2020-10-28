@@ -444,10 +444,8 @@ Target DefaultDC {SolveMode = Solve, ExitMode = DiscardAndContinue, ShowProgress
    Vary DefaultDC(burnTime = 0.1, {Perturbation = 0.0001, Lower = 0.0, Upper = 500, MaxStep = 10, AdditiveScaleFactor = 0.0, MultiplicativeScaleFactor = 1.0});
    BeginFiniteBurn DefaultFB(DefaultSC);
    Propagate Synchronized DefaultProp(DefaultSC) DefaultProp(Spacecraft1) {DefaultSC.ElapsedSecs = burnTime, OrbitColor = [255 128 192]};
-   %Propagate Synchronized DefaultProp(DefaultSC) {DefaultSC.ElapsedSecs = burnTime, OrbitColor = [255 128 192]};
    EndFiniteBurn DefaultFB(DefaultSC);
    Propagate Synchronized DefaultProp(DefaultSC) DefaultProp(Spacecraft1) {DefaultSC.Earth.Apoapsis, OrbitColor = [0 255 64]};
-   %Propagate Synchronized DefaultProp(DefaultSC) {DefaultSC.Earth.Apoapsis, OrbitColor = [0 255 64]};
    Achieve DefaultDC(DefaultSC.Earth.RMAG = Spacecraft1.Earth.RMAG, {Tolerance = 0.02});
 EndTarget;  % For targeter DefaultDC
 
@@ -458,21 +456,25 @@ Write dist { Style = Concise, LogFile = false, MessageWindow = true }
 %Propagate Synchronized DefaultProp(DefaultSC) DefaultProp(Spacecraft1) {DefaultSC.Earth.Periapsis, OrbitColor = [0 0 255]};  % Debug - no orbit circularization
 Target DefaultDC {SolveMode = Solve, ExitMode = DiscardAndContinue, ShowProgressWindow = true};
    %Vary DefaultDC(burnTime2 = 300, {Perturbation = 0.0001, Lower = 300, Upper = 700, MaxStep = 10, AdditiveScaleFactor = 0.0, MultiplicativeScaleFactor = 1.0});  % An old option - maneuver begins at apocenter
-   
+
    Vary DefaultDC(halfBurn2duration = 300, {Perturbation = 0.0001, Lower = 200, Upper = 700, MaxStep = 10, AdditiveScaleFactor = 0.0, MultiplicativeScaleFactor = 1.0});  % New otion - maneuver begin before the apocenter
    BeginScript
       GMAT backPropDuration = -halfBurn2duration;
       GMAT burnTime2 = halfBurn2duration*2;
    EndScript;
+
    Propagate BackProp Synchronized DefaultProp(DefaultSC) DefaultProp(Spacecraft1) {DefaultSC.ElapsedSecs = backPropDuration, OrbitColor = [128 0 255]};
+
    BeginFiniteBurn DefaultFB(DefaultSC);
    Propagate Synchronized DefaultProp(DefaultSC) DefaultProp(Spacecraft1) {DefaultSC.ElapsedSecs = burnTime2, OrbitColor = [255 0 0]};
    EndFiniteBurn DefaultFB(DefaultSC);
+
    GMAT dist = sqrt((DefaultSC.X-Spacecraft1.X)*(DefaultSC.X-Spacecraft1.X)+(DefaultSC.Y-Spacecraft1.Y)*(DefaultSC.Y-Spacecraft1.Y)+(DefaultSC.Z-Spacecraft1.Z)*(DefaultSC.Z-Spacecraft1.Z));
    Write dist { Style = Concise, LogFile = false, MessageWindow = true }
    Propagate Synchronized DefaultProp(DefaultSC) DefaultProp(Spacecraft1) {DefaultSC.Earth.Apoapsis, OrbitColor = [255 128 64]};
    Achieve DefaultDC(DefaultSC.Earth.SMA = Spacecraft1.Earth.SMA, {Tolerance = 0.01});
 EndTarget;  % For targeter DefaultDC
+
 Propagate Synchronized DefaultProp(DefaultSC) DefaultProp(Spacecraft1) {DefaultSC.Earth.Apoapsis, OrbitColor = [128 255 255]};
 GMAT dist = sqrt((DefaultSC.X-Spacecraft1.X)*(DefaultSC.X-Spacecraft1.X)+(DefaultSC.Y-Spacecraft1.Y)*(DefaultSC.Y-Spacecraft1.Y)+(DefaultSC.Z-Spacecraft1.Z)*(DefaultSC.Z-Spacecraft1.Z));
 Write dist { Style = Concise, LogFile = false, MessageWindow = true }
