@@ -172,19 +172,6 @@ GMAT DefaultProp_ForceModel.GravityField.Earth.StmLimit = 100;
 GMAT DefaultProp_ForceModel.GravityField.Earth.PotentialFile = 'JGM2.cof';
 GMAT DefaultProp_ForceModel.GravityField.Earth.TideModel = 'None';
 
-Create ForceModel Propagator1_ForceModel;
-GMAT Propagator1_ForceModel.CentralBody = Earth;
-GMAT Propagator1_ForceModel.PrimaryBodies = {Earth};
-GMAT Propagator1_ForceModel.Drag = None;
-GMAT Propagator1_ForceModel.SRP = Off;
-GMAT Propagator1_ForceModel.RelativisticCorrection = Off;
-GMAT Propagator1_ForceModel.ErrorControl = RSSStep;
-GMAT Propagator1_ForceModel.GravityField.Earth.Degree = 4;
-GMAT Propagator1_ForceModel.GravityField.Earth.Order = 4;
-GMAT Propagator1_ForceModel.GravityField.Earth.StmLimit = 100;
-GMAT Propagator1_ForceModel.GravityField.Earth.PotentialFile = 'JGM2.cof';
-GMAT Propagator1_ForceModel.GravityField.Earth.TideModel = 'None';
-
 %----------------------------------------
 %---------- Propagators
 %----------------------------------------
@@ -198,16 +185,6 @@ GMAT DefaultProp.MinStep = 0.001;
 GMAT DefaultProp.MaxStep = 2700;
 GMAT DefaultProp.MaxStepAttempts = 50;
 GMAT DefaultProp.StopIfAccuracyIsViolated = true;
-
-Create Propagator Propagator1;
-GMAT Propagator1.FM = Propagator1_ForceModel;
-GMAT Propagator1.Type = RungeKutta89;
-GMAT Propagator1.InitialStepSize = 60;
-GMAT Propagator1.Accuracy = 9.999999999999999e-12;
-GMAT Propagator1.MinStep = 0.001;
-GMAT Propagator1.MaxStep = 2700;
-GMAT Propagator1.MaxStepAttempts = 50;
-GMAT Propagator1.StopIfAccuracyIsViolated = true;
 
 %----------------------------------------
 %---------- Burns
