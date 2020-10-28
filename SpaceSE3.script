@@ -350,11 +350,10 @@ GMAT OpenFrames1.DrawFontPosition = {'Top-Right', 'Top-Right', 'Top-Right'};
 %----------------------------------------
 %---------- Arrays, Variables, Strings
 %----------------------------------------
-Create Variable burnTime dR dist angle1 ratio deltaT burnTime2 halfBurn2duration backPropDuration;
+Create Variable burnTime dR dist ratio deltaT burnTime2 halfBurn2duration backPropDuration;
 GMAT burnTime = 0;
 GMAT dR = 0;
 GMAT dist = 0;
-GMAT angle1 = 0;
 GMAT ratio = 10;
 GMAT deltaT = 100;
 GMAT burnTime2 = 0;
@@ -454,6 +453,7 @@ Write dist { Style = Concise, LogFile = false, MessageWindow = true }
 
 %Stop;  % Debug
 %Propagate Synchronized DefaultProp(DefaultSC) DefaultProp(Spacecraft1) {DefaultSC.Earth.Periapsis, OrbitColor = [0 0 255]};  % Debug - no orbit circularization
+
 Target DefaultDC {SolveMode = Solve, ExitMode = DiscardAndContinue, ShowProgressWindow = true};
    %Vary DefaultDC(burnTime2 = 300, {Perturbation = 0.0001, Lower = 300, Upper = 700, MaxStep = 10, AdditiveScaleFactor = 0.0, MultiplicativeScaleFactor = 1.0});  % An old option - maneuver begins at apocenter
 
